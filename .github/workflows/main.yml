@@ -1,0 +1,12 @@
+name: test Ionic(jest)
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: testing ionic
+      run: |
+        npm i @ionic/react-test-utils
+        npm i js-cookie
+        npm run test.unit
