@@ -10,4 +10,3 @@ jobs:
         npm i @ionic/react-test-utils
         npm i js-cookie
         npm run test.unit
-        ionic build
