@@ -12,4 +12,5 @@ jobs:
     - name : build ionic
       run : |
         npm install -g @ionic/cli
-        ionic build cd .
+        mkdir dist
+        ionic build
