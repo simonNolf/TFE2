@@ -1,4 +1,4 @@
-import './ExploreContainer.css';
+import './Commons.css';
 
 interface ContainerProps {
   name: string;
@@ -7,9 +7,10 @@ interface ContainerProps {
 const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   return (
     <div className="container">
-      Bonjour Simon
+      Bonjour Simon !!!
     </div>
   );
 };
 
 export default ExploreContainer;
+ 
