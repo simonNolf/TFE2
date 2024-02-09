@@ -25,13 +25,13 @@ jobs:
       run: npm install
 
     - name: Build Ionic App
-      run: npm run build
+      run: npm run ionic build
 
     - name: Create Dist Directory
       run: mkdir dist
 
     - name: Copy Build Artifacts
-      run: cp -r www/* dist/
+      run: cp -r dist/* /dist
       
     - name: Archive Dist Directory
       uses: actions/upload-artifact@v2
