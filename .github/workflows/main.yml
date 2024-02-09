@@ -11,5 +11,5 @@ jobs:
         npm run test.unit
     - name : build ionic
       run : |
-        npm install -g @ionic/cli 
+        npm install -g @ionic/cli
         ionic build
