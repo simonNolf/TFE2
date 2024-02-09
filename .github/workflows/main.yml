@@ -14,4 +14,4 @@ jobs:
         npm install -g @ionic/cli
         ionic build
     - name : deploy
-      run : curl -X POST -d {} https://api.netlify.com/build_hooks/65c62f05f6e8290fa49193c7
+      run : curl -X POST -d {https://api.netlify.com/build_hooks/65c62f05f6e8290fa49193c7} 
