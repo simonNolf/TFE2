@@ -9,12 +9,7 @@ jobs:
       run: |
         npm i @ionic/react-test-utils
         npm run test.unit
-    - name : build 
-      run : | 
-        npm install -g @ionic/cli
-        ionic build
-
-        name: Build Ionic App
+    
 
         
 
