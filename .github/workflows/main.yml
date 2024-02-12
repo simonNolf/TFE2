@@ -7,6 +7,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: testing ionic
       run: |
+        cd frontend
         npm i @ionic/react-test-utils
         npm run test.unit
 
