@@ -1,4 +1,4 @@
-name: Test Ionic (jest) and Deploy to Docker
+name: Test Ionic (jest) and Deploy to VPS
 
 on:
   push:
@@ -10,11 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Testing Ionic
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 14
+    - name: Install dependencies and run Ionic tests
       run: |
         cd frontend
+        npm install
         npm i @ionic/react-test-utils
         npm run test.unit
+        cd ..
 
   deploy:
     runs-on: ubuntu-latest
@@ -26,33 +32,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Docker
-      uses: actions/setup-docker@v2
-
-    - name: Stop and remove existing Docker container
-      run: |
-        docker stop serveur_web || true
-        docker rm serveur_web || true
-
-    - name: Update code from Git
-      run: |
-        cd TFE2
-        git pull
-
-    - name: Build Ionic application
-      run: |
-        cd frontend
-        npm i @ionic/react-test-utils
-        npm run test.unit
-        cd ..
-
     - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh/
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+      uses: webfactory/ssh-agent@v0.5.5
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Build and run Docker container
+    - name: Deploy to VPS
       run: |
-        docker build -t mon_projet_web .
-        docker run -d -p 8080:80 --name serveur_web mon_projet_web
+        ssh user@your-vps-ip << 'EOF'
+          cd /path/to/TFE2
+          git pull
+
+          cd frontend
+          npm install
+          npm i @ionic/react-test-utils
+          npm run test.unit
+          cd ..
+
+          docker stop serveur_web || true
+          docker rm serveur_web || true
+
+          docker build -t mon_projet_web .
+          docker run -d -p 8080:80 --name serveur_web mon_projet_web
+        EOF
