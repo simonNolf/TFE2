@@ -3,7 +3,7 @@ name: Test Ionic (jest) and Deploy to Docker
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   test:
