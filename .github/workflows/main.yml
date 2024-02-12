@@ -1,13 +1,58 @@
-name: test Ionic(jest)
-on: [push]
+name: Test Ionic (jest) and Deploy to Docker
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: testing ionic
+    - name: Testing Ionic
       run: |
         cd frontend
         npm i @ionic/react-test-utils
         npm run test.unit
 
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker
+      uses: actions/setup-docker@v2
+
+    - name: Stop and remove existing Docker container
+      run: |
+        docker stop serveur_web || true
+        docker rm serveur_web || true
+
+    - name: Update code from Git
+      run: |
+        cd TFE2
+        git pull
+
+    - name: Build Ionic application
+      run: |
+        cd frontend
+        npm i @ionic/react-test-utils
+        npm run test.unit
+        cd ..
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+    - name: Build and run Docker container
+      run: |
+        docker build -t mon_projet_web .
+        docker run -d -p 8080:80 --name serveur_web mon_projet_web
