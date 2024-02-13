@@ -1,3 +1,148 @@
+Chat history
+ChatGPT
+New chat
+Today
+
+    SSH Host Key Fix
+
+Yesterday
+
+    Connecter GitHub Actions au VPS
+
+Previous 7 Days
+
+    Apache vs Nginx
+    Dockerfile Apache2 Configurations
+    Installer Docker sur VPS
+    Déployer, Construire, Dockerize, Mettre en ligne
+    GitHub Action Ionic Deploy
+    GitHub Action for Ionic
+
+Previous 30 Days
+
+    GitHub CI/CD with Actions
+    SSH Service Unit Missing
+    Requête avec.then
+    POST Request with Fetch
+    Convert POST to GET
+    Backend Deployed, Assistance Offered
+    New chat
+    Code Review: User Registration
+    Async Form Submission Function
+    Générer clé SSH Windows
+    CSS Z-Index Explained
+    Backend Deployment Issues
+    Optimize Chunks with Vite
+    Ionic Warning: Label Required
+    Fetch with .then syntax
+    Redirection Utilisateur avec Modèles
+    Fetch Error: ns_BINDING_ABORTED
+    Registration URL assistance
+    Supprimer arguments de l'URL
+    Blocage CORS, Politique Same Origin
+
+Upgrade planGet GPT-4, DALL·E, and more
+ChatGPT 3.5
+User
+Host key verification failed.
+Error: Process completed with exit code 255.
+ChatGPT
+
+The error message "Host key verification failed" typically occurs when trying to connect to a remote server using SSH (Secure Shell), and the host key of the server does not match the key stored in your local known_hosts file. This issue is a security measure to prevent man-in-the-middle attacks.
+
+Here are some steps you can take to resolve the issue:
+
+    Check Host Key:
+    Ensure that the host key of the remote server hasn't changed unexpectedly. This can happen if the server has been reinstalled or if there's a security issue. If you're sure it's safe, you can update the known_hosts file.
+
+    Update known_hosts:
+    Open the known_hosts file on your local machine (usually located in ~/.ssh/known_hosts) and remove the line corresponding to the remote server. The next time you connect, the correct key will be added to the file.
+
+    css
+
+ssh-keygen -R <hostname or IP address>
+
+Replace <hostname or IP address> with the actual address of the server.
+
+Verify Connection:
+Try connecting to the server again. SSH should prompt you to add the new key to the known_hosts file. Type 'yes' to add the key.
+
+css
+
+ssh username@hostname
+
+Check Permissions:
+Ensure that the permissions on the ~/.ssh directory and the known_hosts file are set correctly. The ~/.ssh directory should have permissions 700, and the known_hosts file should have permissions 600.
+
+bash
+
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/known_hosts
+
+Use StrictHostKeyChecking:
+As a temporary solution, you can disable strict host key checking by adding the following flag when connecting:
+
+perl
+
+    ssh -o StrictHostKeyChecking=no username@hostname
+
+    Be cautious when using this option, as it removes a layer of security.
+
+If the issue persists, you may need to investigate further by checking server logs and ensuring the server is configured correctly.
+User
+i got this error on githubaction
+ChatGPT
+
+If you are encountering the "Host key verification failed" error in the context of GitHub Actions, it might be due to the runner environment not having the necessary SSH configuration or known_hosts setup. Here are some steps to address the issue:
+
+    Update known_hosts:
+    In your GitHub Actions workflow, you can add a step to update the known_hosts file before attempting any SSH-related operations. This can be done using a script like the following:
+
+    yaml
+
+- name: Update known_hosts
+  run: |
+    ssh-keyscan -H <hostname or IP address> >> ~/.ssh/known_hosts
+
+Replace <hostname or IP address> with the actual address of the server.
+
+Use StrictHostKeyChecking:
+As a workaround, you can also use the -o StrictHostKeyChecking=no option when executing SSH commands. However, keep in mind that this bypasses host key checking and might introduce security risks.
+
+yaml
+
+- name: SSH into the server
+  run: |
+    ssh -o StrictHostKeyChecking=no username@hostname "your command here"
+
+Consider using this option only if you are confident about the security implications and if updating the known_hosts file doesn't resolve the issue.
+
+Check SSH Configuration:
+Make sure that the SSH configuration is correctly set up in your GitHub Actions workflow. Ensure that the private key used for authentication is correctly configured, and the necessary SSH environment variables are set.
+
+yaml
+
+- name: SSH into the server
+  run: |
+    ssh -i /path/to/private/key username@hostname "your command here"
+
+Replace /path/to/private/key with the actual path to your private key.
+
+Debugging:
+You can add additional debugging steps to gather more information about the issue. For example, print the contents of the known_hosts file, check the SSH configuration, and examine any logs related to the GitHub Actions workflow.
+
+yaml
+
+    - name: Debug
+      run: |
+        cat ~/.ssh/known_hosts
+        ssh -vvv username@hostname "your command here"
+
+    The -vvv option increases the verbosity of the SSH output, providing more details about the connection process.
+
+Make sure to adapt these steps according to your specific use case and GitHub Actions workflow. If the problem persists, examining the specific details of the workflow, including logs and configuration, can help in diagnosing and resolving the issue.
+User
+add this to 
 name: Test Ionic (jest) and Deploy to VPS
 
 on:
@@ -58,3 +203,81 @@ jobs:
           docker run -d -p 8080:80 --name serveur_web mon_projet_web
           exit
         EOF
+ChatGPT
+
+To address the "Host key verification failed" issue in your GitHub Actions workflow, you can modify the webfactory/ssh-agent step to include the known_hosts update step. Here's the modified workflow:
+
+yaml
+
+name: Test Ionic (jest) and Deploy to VPS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 14
+    - name: Install dependencies and run Ionic tests
+      run: |
+        cd frontend
+        npm install
+        npm i @ionic/react-test-utils
+        npm run test.unit
+        cd ..
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      SSH_PRIVATE_KEY: ${{ secrets.KEY_SSH }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_IP: ${{ secrets.VPS_IP }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Update known_hosts
+      run: |
+        ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
+
+    - name: webfactory/ssh-agent
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.KEY_SSH }}
+
+    - name: Deploy to VPS
+      run: |
+        ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} /bin/bash << EOF
+          cd TFE2
+          git pull
+
+          cd frontend
+          npm install
+          npm i @ionic/react-test-utils
+          npm run test.unit
+          cd ..
+
+          docker stop serveur_web || true
+          docker rm serveur_web || true
+
+          docker build -t mon_projet_web .
+          docker run -d -p 8080:80 --name serveur_web mon_projet_web
+          exit
+        EOF
+
+This modification adds a step before the webfactory/ssh-agent step to update the known_hosts file with the host key of your VPS. The ssh-keyscan command is used to fetch and append the host key to the known_hosts file.
+
+Remember to replace /path/to/TFE2 with the actual path to your TFE2 project on the VPS. Also, make sure to adjust any other paths or configuration as needed for your specific setup.
+Is this conversation helpful so far?
+ChatGPT can make mistakes. Consider checking important information.
+
+ChatGPT
