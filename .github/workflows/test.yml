@@ -27,3 +27,4 @@ jobs:
         npm install
         npm i @ionic/react-test-utils
         npm run test.unit
+
