@@ -1,7 +1,7 @@
 import './Commons.css';
 
 interface ContainerProps {
-  name: string;
+  name: string; 
 }
 
 const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
