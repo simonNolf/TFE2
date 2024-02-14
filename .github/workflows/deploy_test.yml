@@ -1,7 +1,9 @@
 name: Deploy test to VPS
 
 on:
-  push:      
+  push:
+    branches:
+      - '*'
 
 jobs:
   deploy:
