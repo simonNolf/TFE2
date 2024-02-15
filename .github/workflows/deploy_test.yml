@@ -46,3 +46,4 @@ jobs:
           docker run -d -p 8070:80 --name serveur_web_test mon_projet_web_test
           exit
         EOF
+
