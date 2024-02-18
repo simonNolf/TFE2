@@ -43,6 +43,6 @@ jobs:
           docker stop serveur_web || true
           docker rm serveur_web || true
           docker build -t mon_projet_web .
-          docker run -d -p 8080:80 --name serveur_web mon_projet_web
+          docker run -d -p 80:80 --name serveur_web mon_projet_web
           exit
         EOF
