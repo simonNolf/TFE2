@@ -5,7 +5,6 @@ FROM httpd:latest
 RUN apt-get update && apt-get install -y nano
 
 # Enable Apache modules
-RUN ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 
 # Copy Apache configuration file
 COPY apache2.conf /etc/apache2/sites-available/000-default.conf
