@@ -8,7 +8,6 @@ COPY apache2.conf /usr/local/apache2/conf/httpd.conf
 COPY ./frontend/dist/ /usr/local/apache2/htdocs/
 
 # Enable Apache modules (example: rewrite module)
-RUN sed -i '/LoadModule rewrite_module/s/^#//g' /usr/local/apache2/conf/httpd.conf
 
 # Expose ports 80 and 443
 EXPOSE 80
