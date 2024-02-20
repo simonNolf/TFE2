@@ -1,17 +1,12 @@
-# Utilize the official Apache image to deploy your frontend application
+# Utilisez l'image officielle Apache pour déployer votre application frontend
 FROM httpd:latest
 
-# Install required packages
+# Installez les paquets nécessaires
 RUN apt-get update && apt-get install -y nano
 
-# Enable Apache modules
+# Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut d'Apache
+COPY apache2.conf /usr/local/apache2/conf/httpd.conf
+COPY ./frontend/dist/ /usr/local/apache2/htdocs/
 
-# Copy Apache configuration file
-COPY apache2.conf /etc/apache2/sites-available/000-default.conf
-
-# Copy the built files of your frontend project into the default Apache web directory
-COPY ./frontend/dist/ /var/www/html/
-
-# Expose ports
+# Exposez le port 80 pour permettre l'accès au serveur web
 EXPOSE 80
-EXPOSE 443
