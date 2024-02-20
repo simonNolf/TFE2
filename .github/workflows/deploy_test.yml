@@ -36,6 +36,7 @@ jobs:
         ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} /bin/bash << EOF
           cd TFE2
           git pull
+          git checkout dev-main
           cd frontend
           npm install
           ionic build --prod
