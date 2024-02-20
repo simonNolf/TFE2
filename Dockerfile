@@ -1,14 +1,18 @@
-# Utilisez l'image officielle Apache pour déployer votre application frontend
+# Utilize the official Apache image to deploy your frontend application
 FROM httpd:latest
-RUN apt-get install
-RUN a2enmod rewrite
-RUN apt install nano -y 
 
-# Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut d'Apache
-COPY apache2.conf /etc/apache2/sites-available/apache2.conf
-COPY ./frontend/dist/ /var/www/site
-RUN a2ensite apache2.conf
+# Install required packages
+RUN apt-get update && apt-get install -y nano
 
-# Exposez le port 80 pour permettre l'accès au serveur web
+# Enable Apache modules
+RUN ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
+
+# Copy Apache configuration file
+COPY apache2.conf /etc/apache2/sites-available/000-default.conf
+
+# Copy the built files of your frontend project into the default Apache web directory
+COPY ./frontend/dist/ /var/www/html/
+
+# Expose ports
 EXPOSE 80
 EXPOSE 443
