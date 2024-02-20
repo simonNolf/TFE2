@@ -1,0 +1,9 @@
+/* Login.scss */
+.login-container {
+    text-align: center;
+  
+    h1 {
+      color: #333;
+    }
+}
+  
