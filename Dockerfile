@@ -1,7 +1,6 @@
 # Utilisez l'image officielle Apache pour déployer votre application frontend
 FROM httpd:latest
-RUN apt-get install
-RUN apt-get install nano -y 
+
 
 # Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut d'Apache
 COPY apache2.conf /etc/apache2/sites-available/apache2.conf
