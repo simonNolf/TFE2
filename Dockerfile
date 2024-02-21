@@ -1,17 +1,17 @@
-# Utilisez l'image officielle Apache pour déployer votre application frontend
-FROM httpd:latest
+# Utiliser l'image officielle Apache avec PHP pour déployer votre application frontend
+FROM php:apache
 
 # Copiez le fichier .htaccess dans le répertoire par défaut d'Apache
-COPY .htaccess /usr/local/apache2/htdocs/
+COPY .htaccess /var/www/html/
 
 # Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut d'Apache
-COPY apache2.conf /etc/apache2/sites-available/apache2.conf
-COPY ./frontend/dist/ /var/www/site
-RUN a2ensite apache2.conf
+COPY ./frontend/dist/ /var/www/html/
 
-# Activer le module rewrite
+# Copiez le fichier de configuration Apache personnalisé
+COPY apache2.conf /etc/apache2/apache2.conf
+
+# Activer le module rewrite (peut ne pas être nécessaire, car il est généralement déjà activé)
 RUN a2enmod rewrite
 
 # Exposez le port 80 pour permettre l'accès au serveur web
 EXPOSE 80
-EXPOSE 443
