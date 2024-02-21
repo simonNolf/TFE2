@@ -1,0 +1,6 @@
+# Activer le moteur de réécriture
+RewriteEngine On
+
+# Rediriger covoitephec.site vers www.covoitephec.site
+RewriteCond %{HTTP_HOST} ^covoitephec\.site [NC]
+RewriteRule ^(.*)$ http://www.covoitephec.site/$1 [L,R=301]
