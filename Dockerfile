@@ -1,6 +1,9 @@
 # Utilisez l'image officielle Apache HTTP Server
 FROM httpd:latest
 
+# Définissez la variable d'environnement APACHE_LOG_DIR
+ENV APACHE_LOG_DIR /usr/local/apache2/logs
+
 # Copiez le fichier .htaccess dans le répertoire par défaut d'Apache
 COPY .htaccess /usr/local/apache2/htdocs/
 
@@ -15,3 +18,6 @@ RUN sed -i 's/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/' /usr/loca
 
 # Exposez le port 80 pour permettre l'accès au serveur web
 EXPOSE 80
+
+# Commande de démarrage d'Apache
+CMD ["httpd", "-D", "FOREGROUND"]
