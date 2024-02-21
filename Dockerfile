@@ -5,8 +5,11 @@ FROM httpd:latest
 COPY apache2.conf /etc/apache2/sites-available/apache2.conf
 COPY ./frontend/dist/ /var/www/site
 
+# Créez le répertoire sites-enabled
+RUN mkdir /etc/apache2/sites-enabled
+
 # Activez le site dans la configuration d'Apache
-RUN ln -s /etc/apache2/sites-available/apache2.conf /etc/apache2/sites-available/apache2.conf
+RUN ln -s /etc/apache2/sites-available/apache2.conf /etc/apache2/sites-enabled/apache2.conf
 
 # Exposez le port 80 pour permettre l'accès au serveur web
 EXPOSE 80
