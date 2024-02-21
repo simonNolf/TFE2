@@ -5,6 +5,12 @@ FROM httpd:latest
 COPY apache2.conf /etc/apache2/sites-available/apache2.conf
 COPY ./frontend/dist/ /var/www/site
 
+# Activez le site dans la configuration d'Apache
+RUN ln -s /etc/apache2/sites-available/apache2.conf /etc/apache2/sites-enabled/apache2.conf
+
 # Exposez le port 80 pour permettre l'accès au serveur web
 EXPOSE 80
 EXPOSE 443
+
+# Démarrez Apache au sein du conteneur
+CMD ["httpd-foreground"]
