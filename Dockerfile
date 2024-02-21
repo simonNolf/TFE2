@@ -7,6 +7,9 @@ ENV APACHE_LOG_DIR /usr/local/apache2/logs
 # Créez le répertoire DocumentRoot
 RUN mkdir -p /var/www/html/dist
 
+# Créez le répertoire des logs
+RUN mkdir -p /usr/local/apache2/logs
+
 # Copiez le fichier .htaccess dans le répertoire par défaut d'Apache
 COPY .htaccess /var/www/html/dist/
 
