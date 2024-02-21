@@ -1,10 +1,14 @@
-# Utilisez l'image officielle Apache pour déployer votre application frontend
-FROM debian:stretch
+# Utilisez l'image officielle Nginx pour déployer votre application frontend
+FROM nginx:latest
 
-# Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut d'Apache
-COPY apache2.conf /etc/apache2/sites-available/apache2.conf
-COPY ./frontend/dist/ /var/www/site
-RUN a2ensite apache2.conf
+# Supprimez la configuration par défaut de Nginx
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut de Nginx
+COPY nginx.conf /etc/nginx/conf.d/
+
+# Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut de Nginx
+COPY ./frontend/dist/ /usr/share/nginx/html/
 
 # Exposez le port 80 pour permettre l'accès au serveur web
 EXPOSE 80
