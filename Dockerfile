@@ -25,7 +25,7 @@ RUN sed -i 's/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/' /usr/loca
 # Activer le module log_config
 RUN sed -i 's/#LoadModule\ log_config_module/LoadModule\ log_config_module/' /usr/local/apache2/conf/httpd.conf
 
-# Exposez le port 80 pour permettre l'accès au serveur web
+# Exposez le port 80
 EXPOSE 80
 
 # Commande de démarrage d'Apache
