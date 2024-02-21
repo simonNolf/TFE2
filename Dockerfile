@@ -1,6 +1,9 @@
 # Utilisez l'image officielle Apache pour déployer votre application frontend
 FROM httpd:latest
 
+RUN sudo apt-get update
+run sudo apt-get install apache2 libapache2-mod-wsgi python-dev
+
 # Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut d'Apache
 COPY apache2.conf /etc/apache2/sites-available/apache2.conf
 COPY ./frontend/dist/ /var/www/site
