@@ -5,7 +5,7 @@ FROM nginx:latest
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut de Nginx
-COPY nginx.conf /etc/nginx/conf.d/
+COPY nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut de Nginx
 COPY ./frontend/dist/ /usr/share/nginx/html/
