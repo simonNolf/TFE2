@@ -14,7 +14,9 @@ import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
-import Login from './pages/Login'
+import Login from './pages/Login';
+import Connexion from './pages/Connexion'
+import Inscription from './pages/Inscription';
 
 import '@ionic/react/css/core.css';
 
@@ -39,6 +41,8 @@ const App: React.FC = () => (
       <IonTabs>
         <IonRouterOutlet>
         <Route path="/login" component={Login} exact={true}/>
+        <Route path="/connexion" component={Connexion} exact={true}/>
+        <Route path="/inscription" component={Inscription} exact={true}/>
 
           <Route exact path="/tab1">
             <Tab1 />

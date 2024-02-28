@@ -22,3 +22,9 @@
 .container a {
   text-decoration: none;
 }
+/* Dans votre fichier Commons.css ou un autre fichier de styles */
+.centered-container {
+  text-align: center;
+}
+
+/* Appliquer cette classe à votre formulaire */
