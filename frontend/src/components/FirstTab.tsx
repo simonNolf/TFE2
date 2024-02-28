@@ -1,3 +1,4 @@
+import { IonButton } from '@ionic/react';
 import './Commons.css';
 
 interface ContainerProps {
@@ -7,7 +8,7 @@ interface ContainerProps {
 const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   return (
     <div className="container">
-      Bonjour Simon !
+      <IonButton href={'/login'}>Connexion</IonButton>
     </div>
   );
 };
