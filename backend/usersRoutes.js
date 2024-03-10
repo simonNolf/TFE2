@@ -79,6 +79,8 @@ router.post('/login', async (req, res) => {
   }
 });
 
+const moment = require('moment'); // Assurez-vous d'installer cette bibliothèque en utilisant npm install moment
+
 router.post('/register', async (req, res) => {
   try {
     const { matricule, password, email } = req.body;
@@ -90,15 +92,18 @@ router.post('/register', async (req, res) => {
     // Hacher le mot de passe avec le sel
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Enregistrement dans la base de données avec le mot de passe haché et le sel
-    await db.none('INSERT INTO "user" (matricule, password, salt, status) VALUES($1, $2, $3, $4)',
-                  [matricule, hashedPassword, salt, 'pending']);
+    // Créer une date d'expiration d'une heure à partir de maintenant
+    const expirationDate = moment().add(1, 'hour').toISOString();
+
+    // Enregistrement dans la base de données avec le mot de passe haché, le sel et la date d'expiration
+    await db.none('INSERT INTO "user" (matricule, password, salt, status, activation_expiration) VALUES($1, $2, $3, $4, $5)',
+                  [matricule, hashedPassword, salt, 'pending', expirationDate]);
 
     // Envoi d'un e-mail avec le lien d'activation
     const activationLink = `${process.env.API_URL}/activate/${matricule}`;
     const mailOptions = {
-      from: process.env.MAIL, // Votre adresse e-mail Gmail
-      to: 'simon.nolf@gmail.com',  // Utilisez l'adresse e-mail fournie dans la demande
+      from: process.env.MAIL,
+      to: 'simon.nolf@gmail.com',
       subject: 'Activation de compte',
       html: `
         <a href="${activationLink}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none;">Activer le compte</a>
@@ -113,5 +118,6 @@ router.post('/register', async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de l\'inscription' });
   }
 });
+
 
 module.exports = router;

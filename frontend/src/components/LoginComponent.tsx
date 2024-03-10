@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { IonButton, IonInput, IonItem, IonLoading, IonToast } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 
-
-
 const LoginComponent: React.FC = () => {
   const [matricule, setMatricule] = useState<string>('');
   const [showToast, setShowToast] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const history = useHistory();
-  const apiUrl = import.meta.env.VITE_API_URL
+  const apiUrl = import.meta.env.VITE_API_URL;
 
+  const showToastWithColor = (message: string, color: string) => {
+    setToastMessage(message);
+    setShowToast(true);
+  };
 
   async function fetchCSVData() {
     const csvUrl = './../../data.csv';
@@ -30,10 +32,10 @@ const LoginComponent: React.FC = () => {
     const rows = csvData.split('\n').map(row => row.split(';'));
 
     for (let i = 1; i < rows.length; i++) {
-      const matriculeFromCSV = rows[i][0].trim(); 
+      const matriculeFromCSV = rows[i][0].trim();
 
       if (matriculeFromCSV === matriculeToCheck.trim()) {
-        return true; 
+        return true;
       }
     }
 
@@ -59,24 +61,21 @@ const LoginComponent: React.FC = () => {
 
   async function test(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-  
+
     try {
       setLoading(true);
       const csvData = await fetchCSVData();
       const matriculeExistsInCSV = await checkMatriculeInCSV(matricule, csvData);
       const matriculeExistsInDB = await checkMatriculeInDB(matricule);
-  
+
       if (matriculeExistsInCSV && matriculeExistsInDB) {
-        setToastMessage(`Le matricule existe dans le CSV et dans la base de données : ${matricule}`);
-        setShowToast(true);
-        history.push("/connexion", { matricule }); 
+        showToastWithColor(`Le matricule existe dans le CSV et dans la base de données : ${matricule}`, 'success');
+        history.push("/connexion", { matricule });
       } else if (matriculeExistsInCSV) {
-        setToastMessage(`Le matricule : ${matricule} n'a pas de compte lié`);
-        setShowToast(true);
+        showToastWithColor(`Le matricule : ${matricule} n'a pas de compte lié`, 'success');
         history.push("/inscription", { matricule });
       } else {
-        setToastMessage(`Le matricule : ${matricule} n'existe pas`);
-        setShowToast(true);
+        showToastWithColor(`Le matricule : ${matricule} n'existe pas`, 'danger');
       }
     } catch (error) {
       console.error('Erreur lors de la vérification du matricule :', error);
@@ -102,13 +101,14 @@ const LoginComponent: React.FC = () => {
           />
         </IonItem>
         <IonButton type='submit'>Suivant</IonButton>
+        <IonToast
+          isOpen={showToast}
+          onDidDismiss={() => setShowToast(false)}
+          message={toastMessage}
+          duration={2000}
+          color={toastMessage.includes('n\'existe pas') ? 'danger' : 'success'}
+        />
       </form>
-      <IonToast
-        isOpen={showToast}
-        onDidDismiss={() => setShowToast(false)}
-        message={toastMessage}
-        duration={2000}
-      />
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonButton, IonInput, IonItem, IonLabel, IonLoading, IonText, IonToast } from '@ionic/react';
+import { IonButton, IonInput, IonItem, IonLabel, IonLoading, IonToast } from '@ionic/react';
 import './Commons.css';
 import { useLocation } from 'react-router-dom';
 
@@ -12,9 +12,14 @@ const ConnexionContainer: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [matricule, setMatricule] = useState<string>(location.state?.matricule || '');
-  const [backendMessage, setBackendMessage] = useState<string>(''); // Nouvelle variable d'état
+  const [backendMessage, setBackendMessage] = useState<string>('');
   const [showToast, setShowToast] = useState<boolean>(false);
   const apiUrl = import.meta.env.VITE_API_URL;
+
+  const showToastWithColor = (message: string, color: string) => {
+    setBackendMessage(message);
+    setShowToast(true);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,19 +42,16 @@ const ConnexionContainer: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setBackendMessage(data.message);
-        setShowToast(true);
+        showToastWithColor(data.message, 'success');
       } else {
         const errorData = await response.json();
         console.error(errorData.message);
-        setBackendMessage(errorData.message);
-        setShowToast(true);
+        showToastWithColor(errorData.message, 'danger');
       }
 
     } catch (error) {
       console.error('Erreur lors de la connexion :', error);
-      setBackendMessage('Erreur lors de la connexion. Veuillez réessayer.');
-      setShowToast(true);
+      showToastWithColor('Erreur lors de la connexion. Veuillez réessayer.', 'danger');
     } finally {
       setLoading(false);
     }
@@ -76,10 +78,6 @@ const ConnexionContainer: React.FC = () => {
             onIonChange={(e) => setPassword(e.detail.value!)}
           />
         </IonItem>
-        <IonText color="danger">
-          {/* Affichage du message d'erreur conditionnel */}
-          {backendMessage && <p>{backendMessage}</p>}
-        </IonText>
         <IonButton type="submit">Se connecter</IonButton>
 
         <IonToast
@@ -87,6 +85,7 @@ const ConnexionContainer: React.FC = () => {
           onDidDismiss={() => setShowToast(false)}
           message={backendMessage}
           duration={3000}
+          color={backendMessage.includes('Réussie') ? 'success' : 'danger'}
         />
       </form>
     </>
