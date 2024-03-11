@@ -30,17 +30,11 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: 
-        FROM nginx:latest
-        RUN rm /etc/nginx/conf.d/default.conf
-        COPY nginx.conf /etc/nginx/conf.d/nginx.conf
-        COPY ./frontend/dist/ /usr/share/nginx/html/
-        EXPOSE 80
-        EXPOSE 443
-        CMD ["nginx", "-g", "daemon off;"]
+      dockerfile: Dockerfile # Nom du fichier Dockerfile, s'il est à la racine du contexte
     container_name: my-frontend-container
     ports:
       - "80:80"
+
 
 networks:
   default:
