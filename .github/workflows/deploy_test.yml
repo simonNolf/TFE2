@@ -40,5 +40,6 @@ jobs:
         ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} /bin/bash << 'EOF'
           cd test/TFE2
           git pull
+          docker-compose down
           docker-compose up -d --build
         EOF
