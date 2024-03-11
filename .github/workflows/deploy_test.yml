@@ -26,24 +26,15 @@ jobs:
       run: |
         ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
 
-    - name: webfactory/ssh-agent
+    - name: Set up SSH
       uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.KEY_SSH }}
 
     - name: Deploy to VPS
       run: |
-        ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} /bin/bash << EOF
-          cd test
-          cd TFE2
+        ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} /bin/bash << 'EOF'
+          cd test/TFE2
           git pull
-          cd frontend
-          npm install
-          ionic build --prod
-          cd ..
-          docker stop serveur_web_test || true
-          docker rm serveur_web_test || true
-          docker build -t mon_projet_web_test .
-          docker run -d -p 8070:80 --name serveur_web_test mon_projet_web_test
-          exit
+          docker-compose up -d --build
         EOF

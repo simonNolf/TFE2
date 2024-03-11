@@ -11,6 +11,17 @@ const dbConfig = {
   port: process.env.PGPORT,
 };
 
+// Utiliser une configuration de test si l'environnement de test est défini
+if (process.env.NODE_ENV === 'test') {
+  Object.assign(dbConfig, {
+    user: process.env.TEST_PGUSER,
+    host: process.env.TEST_PGHOST,
+    database: process.env.TEST_PGDATABASE,
+    password: process.env.TEST_PGPASSWORD,
+    port: process.env.TEST_PGPORT,
+  });
+}
+
 // Créer une instance de base de données avec pg-promise
 const db = pgp()(dbConfig);
 
