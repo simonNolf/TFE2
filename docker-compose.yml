@@ -33,7 +33,7 @@ services:
       dockerfile: Dockerfile # Nom du fichier Dockerfile, s'il est à la racine du contexte
     container_name: my-frontend-container
     ports:
-      - "80:80"
+      - "80:8070"
 
 
 networks:
