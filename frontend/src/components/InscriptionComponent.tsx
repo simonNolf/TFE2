@@ -14,6 +14,7 @@ const isSqlInjectionSafe = (input: string): boolean => {
     return !sqlInjectionPattern.test(input);
 };
 
+
 const isPasswordSecure = (password: string): boolean => {
     // Password strength validation logic
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -29,6 +30,7 @@ const InscriptionContainer: React.FC = () => {
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>('');
     const apiUrl = import.meta.env.VITE_API_URL;
+    console.log(import.meta.env)
 
     const showToastWithColor = (message: string, color: string) => {
         setToastMessage(message);
