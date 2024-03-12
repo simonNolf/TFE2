@@ -5,9 +5,9 @@ services:
     image: postgres:13
     container_name: my-postgres-container
     environment:
-      POSTGRES_DB: ${{ secrets.PGDATABASE }}
-      POSTGRES_USER: ${{ secrets.PGUSER }}
-      POSTGRES_PASSWORD: ${{ secrets.PGPASSWORD }}
+      POSTGRES_DB: ${PGDATABASE}
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_PASSWORD: ${PGPASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -19,10 +19,10 @@ services:
     working_dir: /app
     command: npm start
     environment:
-      DATABASE_URL: postgres://${{ secrets.PGUSER }}:${{ secrets.PGPASSWORD }}@postgres:5432/${{ secrets.PGDATABASE }}
-      API_URL: ${{ secrets.API_URL }}
-      MAIL: ${{ secrets.MAIL }}
-      MDP: ${{ secrets.MDP }}
+      DATABASE_URL: postgres://${PGUSER}:${PGPASSWORD}@postgres:5432/${PGDATABASE}
+      API_URL: ${API_URL}
+      MAIL: ${MAIL}
+      MDP: ${MDP}
     ports:
       - "3000:3000"
     depends_on:
@@ -36,9 +36,9 @@ services:
       dockerfile: Dockerfile
     container_name: my-frontend-container
     environment:
-      - API_URL: ${{ secrets.API_URL }}
-      - MAIL: ${{ secrets.MAIL }}
-      - MDP: ${{ secrets.MDP }}
+      - API_URL: ${API_URL}
+      - MAIL: ${MAIL}
+      - MDP: ${MDP}
     ports:
       - "8070:80"
 
