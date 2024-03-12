@@ -7,8 +7,8 @@ WORKDIR /app
 # Copie le fichier package.json et le fichier package-lock.json (si existant)
 COPY package*.json ./
 
-# Installe les dépendances
-RUN npm install
+# Installe les dépendances, y compris express
+RUN npm install express
 
 # Installe nodemon globalement
 RUN npm install -g nodemon
