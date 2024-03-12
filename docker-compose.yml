@@ -4,10 +4,8 @@ services:
   postgres:
     image: postgres:13
     container_name: my-postgres-container
-    environment:
-      POSTGRES_DB: ${PGDATABASE}
-      POSTGRES_USER: ${PGUSER}
-      POSTGRES_PASSWORD: ${PGPASSWORD}
+    env_file:
+      - ./backend/.env.production  # Chemin vers le fichier .env.production
     ports:
       - "5432:5432"
     volumes:
@@ -18,11 +16,8 @@ services:
     container_name: my-backend-container
     working_dir: /app
     command: npm start
-    environment:
-      DATABASE_URL: postgres://${PGUSER}:${PGPASSWORD}@postgres:5432/${PGDATABASE}
-      API_URL: ${API_URL}
-      MAIL: ${MAIL}
-      MDP: ${MDP}
+    env_file:
+      - ./backend/.env.production  # Chemin vers le fichier .env.production
     ports:
       - "3000:3000"
     depends_on:
@@ -35,10 +30,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: my-frontend-container
-    environment:
-      - API_URL: ${API_URL}
-      - MAIL: ${MAIL}
-      - MDP: ${MDP}
+    env_file:
+      - ./backend/.env.production  # Chemin vers le fichier .env.production
     ports:
       - "8070:80"
 
