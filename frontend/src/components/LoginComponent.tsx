@@ -94,6 +94,7 @@ const LoginComponent: React.FC = () => {
         <IonItem>
           <IonInput
             value={matricule}
+            required
             maxlength={8}
             minlength={8}
             placeholder='HEXXXXXX'
