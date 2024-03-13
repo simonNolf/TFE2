@@ -1,5 +1,6 @@
 # Utilisation d'une image officielle PostgreSQL
-FROM postgres:15.6
+FROM postgres:13
+
 
 # Copie du fichier .env
 COPY .env .
