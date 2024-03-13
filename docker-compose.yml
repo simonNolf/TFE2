@@ -15,13 +15,13 @@ services:
 
   backend:
     build:
-      context: . 
-      dockerfile: ./backend/Dockerfile  
+      context: ./backend
+      dockerfile: Dockerfile  
     container_name: my-backend-container
     working_dir: /app
     command: npm start
     env_file:
-      - ./backend/.env.production
+      - .env.production
     ports:
       - "3000:3000"
     depends_on:
