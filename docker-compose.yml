@@ -16,7 +16,7 @@ services:
   backend:
     build:
       context: ./backend  # Chemin vers le répertoire contenant le Dockerfile
-      dockerfile: Dockerfile  # Nom du Dockerfile
+      dockerfile: ./backend/Dockerfile  # Nom du Dockerfile
     container_name: my-backend-container
     working_dir: /app
     command: npm start
