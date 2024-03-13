@@ -51,11 +51,11 @@ jobs:
 
           cd ..
           cd ./DB
-          echo "PGHOST=${{ secrets.PGHOST }}" > .env
-          echo "PGUSER=${{ secrets.PGUSER }}" >> .env
-          echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> .env
-          echo "PGPORT=${{ secrets.PGPORT }}" >> .env
-          echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> .env
+          echo "POSTGRES_HOST=${{ secrets.PGHOST }}" > .env
+          echo "POSTGRES_USER=${{ secrets.PGUSER }}" >> .env
+          echo "POSTGRES_PASSWORD=${{ secrets.PGPASSWORD }}" >> .env
+          echo "POSTGRES_PORT=${{ secrets.PGPORT }}" >> .env
+          echo "POSTGRES_DB=${{ secrets.PGDATABASE }}" >> .env
         EOF
 
     - name: Create Docker network
