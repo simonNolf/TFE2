@@ -12,6 +12,7 @@ services:
       POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
       POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
       POSTGRES_DB: ${{ env.POSTGRES_DB }}
+    port:
       - "5432:5432"
     volumes:
       - /path/to/data:/var/lib/postgresql/data
