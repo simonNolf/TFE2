@@ -8,6 +8,8 @@ services:
     container_name: my-postgres-container
     env_file:
       - .env  # Utilisez le fichier .env du même dossier
+    environment:
+      POSTGRES_PASSWORD: ${{ secrets.PGPASSWORD }}
     ports:
       - "5432:5432"
     volumes:
