@@ -5,7 +5,7 @@ services:
     image: postgres:13
     container_name: my-postgres-container
     env_file:
-      - ./backend/.env.production
+      - ./backend/.env
     ports:
       - "5432:5432"
     volumes:
@@ -21,7 +21,7 @@ services:
     working_dir: /app
     command: npm start
     env_file:
-      - ./backend/.env.production
+      - ./backend/.env
     ports:
       - "3000:3000"
     depends_on:
@@ -37,7 +37,7 @@ services:
       dockerfile: ./frontend/Dockerfile
     container_name: my-frontend-container
     env_file:
-      - ./frontend/.env.production
+      - ./frontend/.env
     ports:
       - "8070:80"
     networks:
