@@ -56,7 +56,6 @@ jobs:
           echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> .env
           echo "PGPORT=${{ secrets.PGPORT }}" >> .env
           echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> .env
-
         EOF
 
     - name: Create Docker network
