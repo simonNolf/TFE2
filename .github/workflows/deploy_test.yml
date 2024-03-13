@@ -31,22 +31,23 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.KEY_SSH }}
 
-    - name: Create .env file for backend
+    - name: Create .env files on VPS
       run: |
-        echo "PGHOST=${{ secrets.PGHOST }}" > ./backend/.env
-        echo "PGUSER=${{ secrets.PGUSER }}" >> ./backend/.env
-        echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> ./backend/.env
-        echo "PGPORT=${{ secrets.PGPORT }}" >> ./backend/.env
-        echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> ./backend/.env
-        echo "" >> ./backend/.env
-        echo "API_URL=${{ secrets.API_URL }}" >> ./backend/.env
-        echo "MAIL=${{ secrets.MAIL }}" >> ./backend/.env
-        echo "MDP=${{ secrets.MDP }}" >> ./backend/.env
+        ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} /bin/bash << 'EOF'
+          cd ./backend
+          echo "PGHOST=${{ secrets.PGHOST }}" > .env
+          echo "PGUSER=${{ secrets.PGUSER }}" >> .env
+          echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> .env
+          echo "PGPORT=${{ secrets.PGPORT }}" >> .env
+          echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> .env
+          echo "" >> .env
+          echo "API_URL=${{ secrets.API_URL }}" >> .env
+          echo "MAIL=${{ secrets.MAIL }}" >> .env
+          echo "MDP=${{ secrets.MDP }}" >> .env
 
-    - name: Create .env file for frontend
-      run: |
-        cd frontend
-        echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
+          cd ./frontend
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
+        EOF
 
     - name: Create Docker network
       run: |
@@ -55,7 +56,7 @@ jobs:
     - name: Deploy to VPS
       run: |
         ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} /bin/bash << 'EOF'
-          cd test/TFE2
+          cd /chemin/vers/votre/projet
           git pull
           docker-compose down
           docker-compose up -d --build
