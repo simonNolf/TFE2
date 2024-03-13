@@ -6,6 +6,8 @@ services:
       context: ./DB
       dockerfile: Dockerfile  # Utilisez le Dockerfile spécifique pour PostgreSQL
     container_name: my-postgres-container
+    env_file:
+      - ./DB/.env
     environment:
       POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
       POSTGRES_USER: ${{ env.POSTGRES_USER }}
