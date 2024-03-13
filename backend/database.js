@@ -22,6 +22,8 @@ if (process.env.NODE_ENV === 'test') {
   });
 }
 
+console.log('PGPORT:', process.env.PGPORT); // Ajoutez cette ligne pour afficher la valeur de PGPORT
+
 // Créer une instance de base de données avec pg-promise
 const db = pgp()(dbConfig);
 
