@@ -45,7 +45,8 @@ jobs:
 
     - name: Create .env file for frontend
       run: |
-        echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > ./frontend/.env
+        cd frontend
+        echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
 
     - name: Create Docker network
       run: |
