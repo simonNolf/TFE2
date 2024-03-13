@@ -21,7 +21,7 @@ services:
     working_dir: /app
     command: npm start
     env_file:
-      - .env.production
+      - ./backend/.env.production
     ports:
       - "3000:3000"
     depends_on:
