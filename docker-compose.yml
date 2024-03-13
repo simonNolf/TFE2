@@ -2,10 +2,12 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:13
+    build:
+      context: ./DB
+      dockerfile: Dockerfile  # Utilisez le Dockerfile spécifique pour PostgreSQL
     container_name: my-postgres-container
     env_file:
-      - ./backend/.env
+      - .env  # Utilisez le fichier .env du même dossier
     ports:
       - "5432:5432"
     volumes:
