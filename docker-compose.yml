@@ -4,17 +4,17 @@ services:
   postgres:
     build:
       context: ./DB
-      dockerfile: Dockerfile  # Utilisez le Dockerfile spécifique pour PostgreSQL
+      dockerfile: Dockerfile
     container_name: my-postgres-container
     env_file:
       - ./DB/.env
     environment:
-      POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
-      POSTGRES_USER: ${{ env.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-      POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
-      POSTGRES_DB: ${{ env.POSTGRES_DB }}
-    port:
+      POSTGRES_HOST: $POSTGRES_HOST
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_PORT: $POSTGRES_PORT
+      POSTGRES_DB: $POSTGRES_DB
+    ports:
       - "5432:5432"
     volumes:
       - /path/to/data:/var/lib/postgresql/data
