@@ -45,7 +45,8 @@ jobs:
           echo "MAIL=${{ secrets.MAIL }}" >> .env
           echo "MDP=${{ secrets.MDP }}" >> .env
 
-          cd test/TFE2/frontend
+          cd ..
+          cd ./frontend
           echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
         EOF
 
