@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
-import { IonButton, IonInput, IonItem, IonLoading, IonToast } from '@ionic/react';
+import { IonButton, IonInput, IonItem, IonLoading } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 
 const LoginComponent: React.FC = () => {
   const [matricule, setMatricule] = useState<string>('');
-  const [showToast, setShowToast] = useState<boolean>(false);
-  const [toastMessage, setToastMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const history = useHistory();
   const apiUrl = import.meta.env.VITE_API_URL;
-
-  const showToastWithColor = (message: string, color: string) => {
-    setToastMessage(message);
-    setShowToast(true);
-  };
 
   async function fetchCSVData() {
     const csvUrl = './../../data.csv';
@@ -69,13 +63,11 @@ const LoginComponent: React.FC = () => {
       const matriculeExistsInDB = await checkMatriculeInDB(matricule);
 
       if (matriculeExistsInCSV && matriculeExistsInDB) {
-        showToastWithColor(`Le matricule existe dans le CSV et dans la base de données : ${matricule}`, 'success');
         history.push("/connexion", { matricule });
       } else if (matriculeExistsInCSV) {
-        showToastWithColor(`Le matricule : ${matricule} n'a pas de compte lié`, 'success');
         history.push("/inscription", { matricule });
       } else {
-        showToastWithColor(`Le matricule : ${matricule} n'existe pas`, 'danger');
+        setErrorMessage(`Le matricule : ${matricule} n'existe pas`);
       }
     } catch (error) {
       console.error('Erreur lors de la vérification du matricule :', error);
@@ -101,14 +93,8 @@ const LoginComponent: React.FC = () => {
             onIonChange={(e) => setMatricule(e.detail.value!)}
           />
         </IonItem>
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         <IonButton type='submit'>Suivant</IonButton>
-        <IonToast
-          isOpen={showToast}
-          onDidDismiss={() => setShowToast(false)}
-          message={toastMessage}
-          duration={2000}
-          color={toastMessage.includes('n\'existe pas') ? 'danger' : 'success'}
-        />
       </form>
     </>
   );

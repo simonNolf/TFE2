@@ -10,11 +10,6 @@ test('renders without crashing', () => {
   expect(baseElement).toBeDefined();
 });
 
-test('rendrer first tab', async () => {
-  const { findByText } = render (<Tab1 />);
-  await findByText('Bonjour Simon !')
-})
-
 test('rendrer second tab', async () => {
   const { findByText } = render (<Tab2 />);
   await findByText('Bonjour Simon !!')

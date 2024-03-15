@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonButton, IonInput, IonItem, IonLabel, IonLoading, IonToast } from '@ionic/react';
+import { IonButton, IonInput, IonItem, IonLabel, IonLoading } from '@ionic/react';
 import './Commons.css';
 import { useLocation } from 'react-router-dom';
 
@@ -13,13 +13,8 @@ const ConnexionContainer: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [matricule, setMatricule] = useState<string>(location.state?.matricule || '');
   const [backendMessage, setBackendMessage] = useState<string>('');
-  const [showToast, setShowToast] = useState<boolean>(false);
   const apiUrl = import.meta.env.VITE_API_URL;
-
-  const showToastWithColor = (message: string, color: string) => {
-    setBackendMessage(message);
-    setShowToast(true);
-  };
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,16 +37,16 @@ const ConnexionContainer: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        showToastWithColor(data.message, 'success');
+        setBackendMessage(data.message);
       } else {
         const errorData = await response.json();
         console.error(errorData.message);
-        showToastWithColor(errorData.message, 'danger');
+        setErrorMessage(errorData.message);
       }
 
     } catch (error) {
       console.error('Erreur lors de la connexion :', error);
-      showToastWithColor('Erreur lors de la connexion. Veuillez réessayer.', 'danger');
+      setErrorMessage('Erreur lors de la connexion. Veuillez réessayer.');
     } finally {
       setLoading(false);
     }
@@ -78,15 +73,8 @@ const ConnexionContainer: React.FC = () => {
             onIonChange={(e) => setPassword(e.detail.value!)}
           />
         </IonItem>
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         <IonButton type="submit">Se connecter</IonButton>
-
-        <IonToast
-          isOpen={showToast}
-          onDidDismiss={() => setShowToast(false)}
-          message={backendMessage}
-          duration={3000}
-          color={backendMessage.includes('Réussie') ? 'success' : 'danger'}
-        />
       </form>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonItem, IonInput, IonButton, IonLabel, IonToast, IonLoading } from '@ionic/react';
+import { IonItem, IonInput, IonButton, IonLabel, IonLoading } from '@ionic/react';
 import { useLocation } from 'react-router-dom';
 
 import './Commons.css';
@@ -8,18 +8,18 @@ interface LocationState {
     matricule?: string;
 }
 
-const isSqlInjectionSafe = (input: string): boolean => {
+export const isSqlInjectionSafe = (input: string): boolean => {
     // SQL injection prevention logic
     const sqlInjectionPattern = /[\';\"]/;
     return !sqlInjectionPattern.test(input);
 };
 
-
-const isPasswordSecure = (password: string): boolean => {
+export const isPasswordSecure = (password: string): boolean => {
     // Password strength validation logic
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d#$@!%*?&]{8,}$/;
     return passwordRegex.test(password);
 };
+
 
 const InscriptionContainer: React.FC = () => {
     const location = useLocation<LocationState>();
@@ -27,39 +27,29 @@ const InscriptionContainer: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-    const [showToast, setShowToast] = useState<boolean>(false);
-    const [toastMessage, setToastMessage] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const apiUrl = import.meta.env.VITE_API_URL;
-    console.log(import.meta.env)
-
-    const showToastWithColor = (message: string, color: string) => {
-        setToastMessage(message);
-        setShowToast(true);
-    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         // Check if passwords match
         if (password !== confirmPassword) {
-            showToastWithColor('Les mots de passe ne correspondent pas.', 'danger');
+            setErrorMessage('Les mots de passe ne correspondent pas.');
             return;
         }
 
         // Check for SQL injection safety
         if (!isSqlInjectionSafe(password) || !isSqlInjectionSafe(confirmPassword)) {
             // Handle SQL injection attempt
-            showToastWithColor('Potentielle injection SQL', 'danger');
+            setErrorMessage('Potentielle injection SQL');
             return;
         }
 
         // Check for password strength
         if (!isPasswordSecure(password)) {
             // Handle weak password
-            showToastWithColor(
-                'Le mot de passe ne remplit pas les prérequis de sécurité (1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial, et au moins 8 caractères)',
-                'danger'
-            );
+            setErrorMessage('Le mot de passe ne remplit pas les prérequis de sécurité (1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial, et au moins 8 caractères)');
             return;
         }
 
@@ -83,14 +73,14 @@ const InscriptionContainer: React.FC = () => {
             // Handle the response from the backend
             if (response.ok) {
                 // Registration successful
-                showToastWithColor('Inscription réussie !', 'success');
+                setErrorMessage('');
             } else {
                 // Handle registration failure
-                showToastWithColor('Échec de l\'inscription.', 'danger');
+                setErrorMessage('Échec de l\'inscription.');
             }
         } catch (error) {
             console.error('Erreur lors de l\'inscription :', error);
-            showToastWithColor('Erreur lors de l\'inscription.', 'danger');
+            setErrorMessage('Erreur lors de l\'inscription.');
         } finally {
             // Stop loading
             setLoading(false);
@@ -130,13 +120,7 @@ const InscriptionContainer: React.FC = () => {
                 <IonButton type='submit'>
                     S'inscrire
                 </IonButton>
-                <IonToast
-                    isOpen={showToast}
-                    onDidDismiss={() => setShowToast(false)}
-                    message={toastMessage}
-                    duration={3000}
-                    color={toastMessage.includes('réussie') ? 'success' : 'danger'}
-                />
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
             </form>
         </>
     );
