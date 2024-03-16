@@ -24,9 +24,7 @@ const LoginComponent: React.FC = () => {
 
   async function checkMatriculeInCSV(matriculeToCheck: string, csvData: string): Promise<boolean> {
     const rows = csvData.split('\n').map(row => row.split(';'));
-    if (matriculeToCheck = ""){
-      return false
-    }
+   
 
     for (let i = 1; i < rows.length; i++) {
       const matriculeFromCSV = rows[i][0].trim();
