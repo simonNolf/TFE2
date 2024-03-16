@@ -24,6 +24,9 @@ const LoginComponent: React.FC = () => {
 
   async function checkMatriculeInCSV(matriculeToCheck: string, csvData: string): Promise<boolean> {
     const rows = csvData.split('\n').map(row => row.split(';'));
+    if (matriculeToCheck = ""){
+      return false
+    }
 
     for (let i = 1; i < rows.length; i++) {
       const matriculeFromCSV = rows[i][0].trim();
@@ -55,6 +58,8 @@ const LoginComponent: React.FC = () => {
 
   async function test(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    
+
 
     try {
       setLoading(true);
@@ -86,7 +91,6 @@ const LoginComponent: React.FC = () => {
         <IonItem>
           <IonInput
             value={matricule}
-            required
             maxlength={8}
             minlength={8}
             placeholder='HEXXXXXX'
