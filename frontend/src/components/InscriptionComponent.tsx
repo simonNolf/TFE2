@@ -29,6 +29,8 @@ const InscriptionContainer: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const apiUrl = import.meta.env.VITE_API_URL;
+    console.log(apiUrl)
+
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
