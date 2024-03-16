@@ -13,14 +13,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - my_network
-    environment:
-      POSTGRES_HOST: 172.20.0.10  # Adresse IP spécifique pour PostgreSQL
+      my_network:
+        ipv4_address: 172.20.0.2  # Adresse IP spécifique pour PostgreSQL
 
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile  
+      dockerfile: Dockerfile
     container_name: my-backend-container
     working_dir: /app
     command: npm start
@@ -33,10 +32,8 @@ services:
     volumes:
       - ./backend:/app
     networks:
-      - my_network
-    environment:
-      PGHOST: 172.20.0.10  # Adresse IP spécifique pour PostgreSQL
-      PGPORT: 5432
+      my_network:
+        ipv4_address: 172.20.0.3  # Adresse IP spécifique pour le backend
 
   frontend:
     build:
@@ -48,7 +45,8 @@ services:
     ports:
       - "8070:80"
     networks:
-      - my_network
+      my_network:
+        ipv4_address: 172.20.0.4  # Adresse IP spécifique pour le frontend
 
 networks:
   my_network:
