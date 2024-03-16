@@ -93,7 +93,7 @@ const LoginComponent: React.FC = () => {
             value={matricule}
             maxlength={8}
             minlength={8}
-            placeholder='HEXXXXXX'
+            placeholder='votre matricule'
             onIonChange={(e) => setMatricule(e.detail.value!)}
           />
         </IonItem>
