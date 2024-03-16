@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
-import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 
@@ -19,4 +18,3 @@ test('rendrer third tab', async () => {
   const { findByText } = render (<Tab3 />);
   await findByText('Bonjour Simon !!!')
 })
-
