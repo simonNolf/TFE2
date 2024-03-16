@@ -9,13 +9,11 @@ interface LocationState {
 }
 
 export const isSqlInjectionSafe = (input: string): boolean => {
-    // SQL injection prevention logic
     const sqlInjectionPattern = /[\';\"]/;
     return !sqlInjectionPattern.test(input);
 };
 
 export const isPasswordSecure = (password: string): boolean => {
-    // Password strength validation logic
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d#$@!%*?&]{8,}$/;
     return passwordRegex.test(password);
 };
@@ -28,9 +26,8 @@ const InscriptionContainer: React.FC = () => {
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://172.20.0.2';
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://172.20.0.3';
     console.log(apiUrl)
-
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -55,13 +52,10 @@ const InscriptionContainer: React.FC = () => {
             return;
         }
 
-        // Start loading
         setLoading(true);
 
-        // Continue with the registration logic or any other actions, e.g., making a backend call
         try {
-            // Assuming you have a backend API endpoint for registration
-            const response = await fetch(`${apiUrl}/users/register`, {
+            const response = await fetch(`172.20.0.3/users/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -72,19 +66,15 @@ const InscriptionContainer: React.FC = () => {
                 }),
             });
 
-            // Handle the response from the backend
             if (response.ok) {
-                // Registration successful
                 setErrorMessage('');
             } else {
-                // Handle registration failure
                 setErrorMessage('Échec de l\'inscription.');
             }
         } catch (error) {
             console.error('Erreur lors de l\'inscription :', error);
             setErrorMessage('Erreur lors de l\'inscription.');
         } finally {
-            // Stop loading
             setLoading(false);
         }
     };

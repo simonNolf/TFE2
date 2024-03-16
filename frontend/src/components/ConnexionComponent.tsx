@@ -22,8 +22,6 @@ const ConnexionContainer: React.FC = () => {
     try {
       setLoading(true);
 
-      // ... (votre logique de connexion)
-
       const response = await fetch(`${apiUrl}/users/login`, {
         method: 'POST',
         headers: {
