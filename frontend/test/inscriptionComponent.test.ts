@@ -1,4 +1,4 @@
-import { isSqlInjectionSafe, isPasswordSecure } from './components/InscriptionComponent';
+import { isSqlInjectionSafe, isPasswordSecure } from '../src/components/InscriptionComponent';
 
 test('isSqlInjectionSafe returns true for safe input', () => {
   expect(isSqlInjectionSafe("safeInput")).toBe(true);

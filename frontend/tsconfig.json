@@ -16,6 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["src", "test/App.test.tsx", "test/inscriptionComponent.test.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

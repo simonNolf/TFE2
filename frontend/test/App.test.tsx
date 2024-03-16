@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import App from './App';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import App from '../src/App';
+import Tab2 from '../src/pages/Tab2'
+import Tab3 from '../src/pages/Tab3';
 
 test('renders without crashing', () => {
   const { baseElement } = render(<App />);
