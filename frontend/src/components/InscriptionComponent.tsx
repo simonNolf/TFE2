@@ -28,7 +28,7 @@ const InscriptionContainer: React.FC = () => {
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://172.20.0.2';
     console.log(apiUrl)
 
 
