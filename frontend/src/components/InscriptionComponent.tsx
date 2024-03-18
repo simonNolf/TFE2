@@ -57,7 +57,7 @@ const InscriptionContainer: React.FC = () => {
         setLoading(true);
 
         try {
-            const response = await fetch(`http://backend:3000/users/register`, {
+            const response = await fetch(`http://54.37.41.127:3000/users/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
