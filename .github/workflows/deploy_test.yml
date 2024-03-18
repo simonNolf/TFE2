@@ -68,6 +68,7 @@ jobs:
           cd test/TFE2
           git pull
           cd frontend
+          npm install
           ionic build
           cd ..
           docker-compose down

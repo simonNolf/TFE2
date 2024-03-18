@@ -88,6 +88,7 @@ const LoginComponent: React.FC = () => {
       <form className="centered-container" onSubmit={test}>
         <IonItem>
           <IonInput
+            required
             value={matricule}
             maxlength={8}
             minlength={8}
