@@ -26,7 +26,7 @@ const InscriptionContainer: React.FC = () => {
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://172.20.0.3';
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://backend:3000';
     console.log('coucou')
 
 
@@ -57,7 +57,7 @@ const InscriptionContainer: React.FC = () => {
         setLoading(true);
 
         try {
-            const response = await fetch(`172.20.0.3:3000/users/register`, {
+            const response = await fetch(`http://backend:3000/users/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
