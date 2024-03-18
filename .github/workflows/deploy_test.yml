@@ -67,9 +67,8 @@ jobs:
         ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} /bin/bash << 'EOF'
           cd test/TFE2
           git pull
-          cd TFE2/frontend
+          cd /frontend
           ionic build
-          cd ..
           cd ..
           docker-compose down
           docker-compose up -d
