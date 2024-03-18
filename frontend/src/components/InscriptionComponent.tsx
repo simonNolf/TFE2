@@ -27,6 +27,8 @@ const InscriptionContainer: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const apiUrl = import.meta.env.VITE_API_URL || 'http://172.20.0.3';
+    console.log('coucou')
+
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -34,7 +36,7 @@ const InscriptionContainer: React.FC = () => {
         // Check if passwords match
         if (password !== confirmPassword) {
             setErrorMessage('Les mots de passe ne correspondent pas.');
-            console.log(apiUrl)
+            console.log('coucou')
             return;
         }
 
@@ -55,7 +57,7 @@ const InscriptionContainer: React.FC = () => {
         setLoading(true);
 
         try {
-            const response = await fetch(`172.20.0.3/users/register`, {
+            const response = await fetch(`172.20.0.3:3000/users/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
