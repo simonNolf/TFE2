@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Installe les dépendances, y compris express
 RUN npm install
+RUN npm install express
 
 # Installe nodemon globalement
 RUN npm install -g nodemon
