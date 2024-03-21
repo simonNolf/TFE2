@@ -5,10 +5,10 @@ FROM httpd:latest
 RUN rm /usr/local/apache2/conf/httpd.conf
 
 # Copier le fichier de configuration personnalisé
-COPY httpd.conf /usr/local/apache2/conf/
+COPY ./httpd.conf /usr/local/apache2/conf/
 
 # Copier les fichiers frontend dans le répertoire web d'Apache2
-COPY dist/ /usr/local/apache2/htdocs/
+COPY ./dist/ /usr/local/apache2/htdocs/
 
 # Exposer le port 80
 EXPOSE 80
