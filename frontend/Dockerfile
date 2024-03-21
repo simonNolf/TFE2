@@ -5,7 +5,7 @@ FROM httpd:latest
 RUN rm /usr/local/apache2/conf/httpd.conf
 
 # Copier le fichier de configuration personnalisé
-COPY apache-config.conf /usr/local/apache2/conf/httpd.conf
+COPY httpd.conf /usr/local/apache2/conf/
 
 # Copier les fichiers frontend dans le répertoire web d'Apache2
 COPY dist/ /usr/local/apache2/htdocs/
