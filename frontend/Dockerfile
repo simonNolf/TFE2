@@ -1,20 +1,11 @@
-# Utilisation de l'image officielle Apache2
+# Utilisez l'image officielle Apache pour déployer votre application frontend
 FROM httpd:latest
 
-# Supprimer le fichier de configuration par défaut d'Apache2
-RUN rm /usr/local/apache2/conf/httpd.conf
+# Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut d'Apache
+COPY apache2.conf /etc/apache2/sites-available/apache2.conf
+COPY dist/ /var/www/site
+RUN a2ensite apache2.conf
 
-# Copier le fichier de configuration principal personnalisé
-COPY httpd.conf /usr/local/apache2/conf/
-
-# Copier la configuration de virtual host
-COPY test.conf /usr/local/apache2/conf/extra/
-
-# Copier les fichiers frontend dans le répertoire web d'Apache2
-COPY dist/ /usr/local/apache2/htdocs/
-
-# Exposer le port 80
+# Exposez le port 80 pour permettre l'accès au serveur web
 EXPOSE 80
-
-# Commande pour démarrer Apache2 en mode daemon
-CMD ["httpd", "-D", "FOREGROUND"]
+EXPOSE 443
