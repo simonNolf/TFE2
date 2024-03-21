@@ -1,13 +1,17 @@
-# Dockerfile pour le frontend
+# Utilisation de l'image officielle Apache2
+FROM httpd:latest
 
-FROM nginx:latest
+# Supprimer le fichier de configuration par défaut d'Apache2
+RUN rm /usr/local/apache2/conf/httpd.conf
 
-RUN rm /etc/nginx/conf.d/default.conf
-COPY data.csv /usr/share/nginx/html/
-COPY ../nginx.conf /etc/nginx/conf.d/nginx.conf
-COPY dist/ /usr/share/nginx/html/
+# Copier le fichier de configuration personnalisé
+COPY apache-config.conf /usr/local/apache2/conf/httpd.conf
 
+# Copier les fichiers frontend dans le répertoire web d'Apache2
+COPY dist/ /usr/local/apache2/htdocs/
+
+# Exposer le port 80
 EXPOSE 80
-EXPOSE 443
 
-CMD ["nginx", "-g", "daemon off;"]
+# Commande pour démarrer Apache2 en mode daemon
+CMD ["httpd", "-D", "FOREGROUND"]
