@@ -1,11 +1,13 @@
-# Utilisez l'image officielle Apache pour déployer votre application frontend
-FROM httpd:latest
+# Dockerfile pour le frontend
 
-# Copiez les fichiers construits de votre projet frontend dans le répertoire par défaut d'Apache
-COPY apache2.conf /etc/apache2/sites-available/apache2.conf
-COPY dist/ /var/www/site
-RUN a2ensite apache2.conf
+FROM nginx:latest
 
-# Exposez le port 80 pour permettre l'accès au serveur web
+RUN rm /etc/nginx/conf.d/default.conf
+COPY data.csv /usr/share/nginx/html/
+COPY ../nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY dist/ /usr/share/nginx/html/
+
 EXPOSE 80
 EXPOSE 443
+
+CMD ["nginx", "-g", "daemon off;"]
