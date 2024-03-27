@@ -18,6 +18,10 @@ app.listen(PORT, () => {
 // Route d'activation du compte
 const moment = require('moment');
 
+app.get("/test", async (req,res) => {
+  res.send("coucou")
+})
+
 app.get('/activate/:matricule', async (req, res) => {
   const matricule = req.params.matricule;
 
