@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 app.use('/users', usersRoutes);
 
-const PORT = 3030;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
 });
